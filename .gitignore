@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ShubertDataExtract
+/Core/bin/Debug/net6.0
+/Core/obj
+/ShubertDataExtract/bin/Debug/net6.0
+/ShubertDataExtract/obj
