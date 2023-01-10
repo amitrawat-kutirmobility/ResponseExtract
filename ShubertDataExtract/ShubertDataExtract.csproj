@@ -7,8 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Shubert Response\.vscode\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shubert Response\ScanIn\09_01_2022\ScanIn\success\" />
   </ItemGroup>
 
 </Project>
