@@ -111,7 +111,8 @@ namespace ShubertDataExtract.Controllers
                 eventPlaceName = eventPlaceNameElement?.InnerText,
                 eventPlaceLocation = eventPlaceLocationElement?.InnerText,
                 eventDateTime = eventDateTimeElement?.InnerText,
-                seventhElement = seventhTextElement?.InnerText
+                seventhElement = seventhTextElement?.InnerText,
+                raw = rawTextElement?.InnerText
             });
         }
 
