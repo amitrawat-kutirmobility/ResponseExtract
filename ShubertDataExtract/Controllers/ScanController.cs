@@ -101,6 +101,8 @@ namespace ShubertDataExtract.Controllers
             var eventDateTimeElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[5]");
             var seventhTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[1]");
             var rawTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[2]");
+            var seatTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[3]");
+            var barCodeElement = doc.DocumentNode.SelectSingleNode("/html/body/p/text()");
 
             return Ok(new
             {
@@ -112,7 +114,9 @@ namespace ShubertDataExtract.Controllers
                 eventPlaceLocation = eventPlaceLocationElement?.InnerText,
                 eventDateTime = eventDateTimeElement?.InnerText,
                 seventhElement = seventhTextElement?.InnerText,
-                raw = rawTextElement?.InnerText
+                raw = rawTextElement?.InnerText,
+                seat = seatTextElement?.InnerText,
+                barCoad = barCodeElement?.InnerText
             });
         }
 
