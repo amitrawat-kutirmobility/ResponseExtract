@@ -16,7 +16,7 @@ namespace ShubertDataExtract.Controllers
             UsingParttern();
 
             var doc = new HtmlDocument();
-            doc.LoadHtml(ScanInSuccessResponse3);
+            doc.LoadHtml(scanInSuccessResponse4);
 
             var firstElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[1]/font/text()[1]");
             var rowElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[1]/font/text()[2]");
@@ -29,7 +29,7 @@ namespace ShubertDataExtract.Controllers
             var eventDateElement = doc.DocumentNode.SelectSingleNode("/html/body/p/font[7]");
 
 
-            //foreach (HtmlNode p in doc.DocumentNode.SelectNodes("//preceding-sibling::br"))
+            //foreach (HtmlNode p in doc.DocumentNode.SelectNodes("//preceding-sibling::br")) 
             //{
             //    Console.WriteLine(p.PreviousSibling.InnerText.Trim());
             //}
@@ -82,6 +82,40 @@ namespace ShubertDataExtract.Controllers
 
             return BadRequest("DAta not found");
         }
+
+
+        [HttpGet("ScanInError_Wrong_Performance")]
+        public IActionResult ScanInError_Wrong_Performance()
+        {
+            var htmlText = signIn_error_wrong_performanceResponse;
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(htmlText);
+
+            var messageElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[1]/font");
+            var titleElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[2]/font");
+            var cityCodeElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[1]/b");
+            var cityNameElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[2]");
+            var eventPlaceNameElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[3]");
+            var eventPlaceLocationElement = doc.DocumentNode.SelectSingleNode("html/body/table/td/p/font[4]");   ///\r\n
+            var eventDateTimeElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[5]");
+            var seventhTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[1]");
+            var rawTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[2]");
+
+            return Ok(new
+            {
+                message = messageElement?.InnerText,
+                title = titleElement?.InnerText, 
+                cityCode = cityCodeElement?.InnerText,
+                cityName = cityNameElement?.InnerText,
+                eventPlaceName = eventPlaceNameElement?.InnerText,
+                eventPlaceLocation = eventPlaceLocationElement?.InnerText,
+                eventDateTime = eventDateTimeElement?.InnerText,
+                seventhElement = seventhTextElement?.InnerText
+            });
+        }
+
+        string signIn_error_wrong_performanceResponse = @"<html><body bgcolor=""#FF0000""><p align=""center""><br><b><font face=""Times New Roman"" color=""#000000"" size=""+20"">Denied</b></font><br><br><b><font face=""Times New Roman"" color=""#000000"" size=""+20"">Wrong Performance</b></font><br><br><table bgcolor=""#E0E0E0"" border=""1"" width=""541""><td><p align=""center""><font face=""Times New Roman"" color=""#FF007A"" size=""6""> <b>(PH)</b></font><font face=""Times New Roman"" color=""#000000"" size=""6"">Chicago</font><br><font face=""Times New Roman"" color=""#000099"" size=""6"">Ambassador Theatre</font><br><font face=""Times New Roman"" color=""#000000"" size=""4"">NY City Area</font><br><font face=""Times New Roman"" color=""#000099"" size=""6"">04/01/23  8:00 PM (E)</font><br></b><font face=""Times New Roman"" color=""#000000"" size=""4"">ORCHC<br><font face=""Times New Roman"" color=""#660033"" size=""5""> row: </font>B<font face=""Times New Roman"" color=""#660033"" size=""3""> seat: </font>111</font></td></table><br>(941457558323)</p></html>";
 
         void UsingParttern()
         {
