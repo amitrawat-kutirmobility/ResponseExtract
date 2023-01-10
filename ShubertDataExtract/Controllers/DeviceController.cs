@@ -1,7 +1,5 @@
 ﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace ShubertDataExtract.Controllers
 {
@@ -80,8 +78,7 @@ namespace ShubertDataExtract.Controllers
             });
         }
 
-
-        [HttpGet("Device_remove_error")] 
+        [HttpGet("Device_remove_error")]
         public IActionResult Device_Remove_Error()
         {
             var doc = new HtmlDocument();
@@ -89,7 +86,6 @@ namespace ShubertDataExtract.Controllers
 
             var titleElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[1]/font");
             var barCodeElement = doc.DocumentNode.SelectSingleNode("/html/body/p/b[2]/font");
-
 
             return Ok(new
             {
@@ -140,15 +136,15 @@ namespace ShubertDataExtract.Controllers
             });
         }
 
-        string device_remove_errorResponse_TicketTakerNotFound2 = @"<html><body bgcolor=""#FF0000""><p align=""center""><b><font face=""Times New Roman"" color=""#FFFFFF"" size=""8"">Ticket Taker Not Found<br><br></b></font><b><font face=""Times New Roman"" color=""#FFFFFF"" size=""5"">1001530             </font></b></p></html>";
+        private string device_remove_errorResponse_TicketTakerNotFound2 = @"<html><body bgcolor=""#FF0000""><p align=""center""><b><font face=""Times New Roman"" color=""#FFFFFF"" size=""8"">Ticket Taker Not Found<br><br></b></font><b><font face=""Times New Roman"" color=""#FFFFFF"" size=""5"">1001530             </font></b></p></html>";
 
-        string device_remove_errorResponse_TicketTakerNotFound = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Ticket Taker Not Found<br><br></b></font><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""5\"">1001530             </font></b></p></html>";
+        private string device_remove_errorResponse_TicketTakerNotFound = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Ticket Taker Not Found<br><br></b></font><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""5\"">1001530             </font></b></p></html>";
 
-        string device_remove_errorResponse_device_cannot_be_Deleted2 = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Sorry&nbsp;Jennifer Flynn device cannot be deleted. <br>Device does not exist. <br>E3-21-F9-7D-A1-0B   <br><br></b></font></p></html>";
+        private string device_remove_errorResponse_device_cannot_be_Deleted2 = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Sorry&nbsp;Jennifer Flynn device cannot be deleted. <br>Device does not exist. <br>E3-21-F9-7D-A1-0B   <br><br></b></font></p></html>";
 
-        string device_remove_errorResponse_device_cannot_be_deleted = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Sorry&nbsp;Jennifer Flynn device cannot be deleted. <br>Device does not exist. <br>E3-21-F9-7D-A1-0B   <br><br></b></font></p></html>";
+        private string device_remove_errorResponse_device_cannot_be_deleted = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Sorry&nbsp;Jennifer Flynn device cannot be deleted. <br>Device does not exist. <br>E3-21-F9-7D-A1-0B   <br><br></b></font></p></html>";
 
-        string device_remove_errorResponseTicket_Taker_Not_Found = @"<html>
+        private string device_remove_errorResponseTicket_Taker_Not_Found = @"<html>
     <body bgcolor=""#FF0000"">
         <p align=""center"">
             <b>
@@ -163,8 +159,9 @@ namespace ShubertDataExtract.Controllers
         </p>
     </html>";
 
-        string device_register_errorResponse = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Ticket Taker Not Found<br><br></b></font><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""5\"">1001534             </font></b></p></html>";
-        string device_register_erroResponse2 = @"<html>
+        private string device_register_errorResponse = @"<html><body bgcolor=\""#FF0000\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""8\"">Ticket Taker Not Found<br><br></b></font><b><font face=\""Times New Roman\"" color=\""#FFFFFF\"" size=\""5\"">1001534             </font></b></p></html>";
+
+        private string device_register_erroResponse2 = @"<html>
     <body bgcolor=""#FF0000"">
         <p align=""center"">
             <b>
@@ -176,10 +173,9 @@ namespace ShubertDataExtract.Controllers
         </p>
     </html>";
 
+        private string device_register_successResponse2 = @"Y~STS-PDA|<html><body bgcolor=\""#FFFFFF\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#000000\"" size=\""8\"">This device has been registered to Majestic Theatre<br><br>mac address: E3:21:F9:7D:A1:2B<br>device name: DeviceSTS-PDA<br><br>Jennifer Flynn</b></font></p></html>";
 
-        string device_register_successResponse2 = @"Y~STS-PDA|<html><body bgcolor=\""#FFFFFF\""><p align=\""center\""><b><font face=\""Times New Roman\"" color=\""#000000\"" size=\""8\"">This device has been registered to Majestic Theatre<br><br>mac address: E3:21:F9:7D:A1:2B<br>device name: DeviceSTS-PDA<br><br>Jennifer Flynn</b></font></p></html>";
-
-        string device_register_successResponse =
+        private string device_register_successResponse =
             @"<html>
     <body bgcolor=""#FFFFFF"">
         <p align=""center"">
