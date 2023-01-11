@@ -102,7 +102,7 @@ namespace ShubertDataExtract.Controllers
             var seventhTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[1]");
             var rawTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[2]");
             var seatTextElement = doc.DocumentNode.SelectSingleNode("/html/body/table/td/p/font[6]/text()[3]");
-            var barCodeElement = doc.DocumentNode.SelectSingleNode("/html/body/p/text()");
+            var barCodeElement = doc.DocumentNode.SelectSingleNode("/html/body/text()");
 
             return Ok(new
             {
@@ -116,7 +116,7 @@ namespace ShubertDataExtract.Controllers
                 seventhElement = seventhTextElement?.InnerText,
                 raw = rawTextElement?.InnerText,
                 seat = seatTextElement?.InnerText,
-                barCoad = barCodeElement?.InnerText
+                barCode = barCodeElement?.InnerText
             });
         }
 
