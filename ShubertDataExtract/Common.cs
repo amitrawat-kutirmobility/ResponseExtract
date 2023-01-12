@@ -37,5 +37,22 @@ namespace ShubertDataExtract
 
             return WebUtility.HtmlDecode(element.InnerText.Trim());
         }
+
+        public static string? GetTextByXPath(this HtmlDocument doc, string xPath)
+        {
+            if (doc == null)
+            {
+                return null;
+            }
+
+            var element = doc.DocumentNode.SelectSingleNode(xPath);
+
+            if (element == null || string.IsNullOrEmpty(element?.InnerText))
+            {
+                return null;
+            }
+
+            return WebUtility.HtmlDecode(element.InnerText.Trim());
+        }
     }
 }
