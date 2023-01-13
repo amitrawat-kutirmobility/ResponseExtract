@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace ShubertDataExtract
 {
@@ -36,6 +37,37 @@ namespace ShubertDataExtract
             }
 
             return WebUtility.HtmlDecode(element.InnerText.Trim());
+        }
+
+        public static string? GetTextByXPath(this HtmlDocument doc, string xPath)
+        {
+            if (doc == null)
+            {
+                return null;
+            }
+
+            var element = doc.DocumentNode.SelectSingleNode(xPath);
+
+            if (element == null || string.IsNullOrEmpty(element?.InnerText))
+            {
+                return null;
+            }
+
+            return WebUtility.HtmlDecode(element.InnerText.Trim());
+        }
+
+        public static string? ConvertHtmlContentToText(this string htmlContent)
+        {
+            if(string.IsNullOrEmpty(htmlContent))
+            {
+                return null;
+            }
+
+            htmlContent = htmlContent
+                .Replace("\r\n", "")
+                .Trim();
+
+            return WebUtility.HtmlDecode(htmlContent);
         }
     }
 }

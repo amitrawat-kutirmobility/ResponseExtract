@@ -210,5 +210,272 @@ namespace ShubertDataExtract.Controllers
         </font>
     </p>
 </html>";
+
+
+        string scan_in_Wrong_Event2_htmlRespons = @"<html><body bgcolor=""#FF0000""><p align=""center""><br><b><font face=""Times New Roman"" color=""#000000"" size=""+20"">Denied</b></font><br><br><b><font face=""Times New Roman"" color=""#000000"" size=""+20"">Wrong Event2</b></font><br><br><table bgcolor=""#E0E0E0"" border=""1"" width=""541""><td><p align=""center""><font face=""Times New Roman"" color=""#FF007A"" size=""6""> <b>(PH)</b></font><font face=""Times New Roman"" color=""#000000"" size=""6"">Chicago</font><br><font face=""Times New Roman"" color=""#000099"" size=""6"">Ambassador Theatre</font><br><font face=""Times New Roman"" color=""#000000"" size=""4"">NY City Area</font><br><font face=""Times New Roman"" color=""#000099"" size=""6"">03/25/23  8:00 PM (E)</font><br></b><font face=""Times New Roman"" color=""#000000"" size=""4"">ORCHC<br><font face=""Times New Roman"" color=""#660033"" size=""5""> row: </font>B<font face=""Times New Roman"" color=""#660033"" size=""3""> seat: </font>111</font></td></table><br>(906452614116)</p></html>";
+
+        [HttpGet("ScanIn_wrong_response2")]
+        public IActionResult ScanIn_wrong_response2()
+        {
+            var htmlText = signIn_error_wrong_performanceResponse;
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(htmlText);
+
+            var message = doc.GetTextByXPath("/html/body/p/b[1]/font");
+            var title = doc.GetTextByXPath("/html/body/p/b[2]/font");
+            var code = doc.GetTextByXPath("/html/body/table/td/p/font[1]/b");
+            var cityName = doc.GetTextByXPath("/html/body/table/td/p/font[2]");
+            var eventPlaceName = doc.GetTextByXPath("/html/body/table/td/p/font[3]");
+            var eventPlaceCityName = doc.GetTextByXPath("/html/body/table/td/p/font[4]");
+            var eventDateTime = doc.GetTextByXPath("/html/body/table/td/p/font[5]");
+            var eighth = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[1]");
+            var raw = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[2]");
+            var seat = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[3]");
+
+            return Ok(new
+            {
+                message,
+                title,
+                code,
+                cityName,
+                eventPlaceName,
+                eventPlaceCityName,
+                eventDateTime,
+                eighth, 
+                raw,
+                seat
+            });
+        }
+
+        string errorResponse = @"<html>
+    <body message=""Security Check"" bgcolor=""#FF0000"">
+        <p align=""center"">
+            <br>
+            <b>
+                <font face=""Times New Roman"" color=""#000000"" size=""+20"">Denied
+                    <br>
+                    <br>
+                </b>
+            </font>
+            <b>
+                <font face=""Times New Roman"" color=""#000000"" size=""+20"">Created</font>
+            </b>
+            <br>
+            <b>
+                <font face=""Times New Roman"" color=""#000000"" size=""8"">11/29/2022 09:41</font>
+            </b>
+        </p>
+    </html>";
+
+        [HttpGet("scan_in_Denied_Created")]
+        public  IActionResult scan_in_Denied_Created()
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(errorResponse);
+
+            var message = doc.GetTextByXPath("/html/body/p/b[1]/font/text()");
+            var title = doc.GetTextByXPath("/html/body/p/b[2]/font");
+            var eventDateTime = doc.GetTextByXPath("/html/body/p/b[3]/font");
+
+            return Ok (new
+            {
+                Message = message,
+                Title = title,
+                EventDateTime = eventDateTime
+            });
+        }
+
+        string scan_in_error_scanedIn_error_response = @"<html>
+    <body bgcolor=#FF0000>
+        <p align=""center"">
+            <br>
+            <b>
+                <font face=""Times New Roman"" color=""#000000"" size=""+20"">Denied
+                    <br>
+                    <br>Scanned In
+                    <br>277:52 minutes ago
+                </b>
+            </font>
+            <br>
+            <br>
+            <table bgcolor=""#E0E0E0"" border=""1"" width=""541"">
+                <td>
+                    <p align=""center"">
+                        <font face=""Times New Roman"" color=""#FF007A"" size=""6"">
+                            <b>(PH)</b>
+                        </font>
+                        <font face=""Times New Roman"" color=""#000000"" size=""6"">The Phantom of the Opera</font>
+                        <br>
+                        <font face=""Times New Roman"" color=""#000099"" size=""6"">Majestic Theatre</font>
+                        <br>
+                        <font face=""Times New Roman"" color=""#000000"" size=""4"">NY City Area</font>
+                        <br>
+                        <font face=""Times New Roman"" color=""#000099"" size=""6"">12/30/22  8:00 PM (E)</font>
+                        <br>
+                    </b>
+                    <font face=""Times New Roman"" color=""#000000"" size=""4"">ORCHO
+                        <font face=""Times New Roman"" color=""#660033"" size=""5""> row: </font>H
+                        <font face=""Times New Roman"" color=""#660033"" size=""3""> seat: </font>22
+                    </font>
+                </td>
+            </table>
+            <br>(922749711995)
+        </p>
+    </html>";
+
+        [HttpGet("scan_in_errors_scanedin")]
+        public IActionResult scan_in_errors_scanedin()
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(scan_in_error_scanedIn_error_response);
+
+            var messageNode = doc.DocumentNode.SelectNodes("//p//font").ToArray();
+
+            var headerSection = messageNode[0].InnerHtml.Split("<br>");
+
+            var message = Common.ConvertHtmlContentToText(headerSection[0]);
+            var title = Common.ConvertHtmlContentToText(headerSection[2]);
+            var minAgo = Common.ConvertHtmlContentToText(headerSection[3]);
+
+            var eventCode = doc.GetTextByXPath("/html/body/table/td/p/font[1]/b");
+            var eventName = doc.GetTextByXPath("/html/body/table/td/p/font[2]");
+            var eventPlaceName = doc.GetTextByXPath("/html/body/table/td/p/font[3]");
+            var eventPlaceCity = doc.GetTextByXPath("/html/body/table/td/p/font[4]");
+            var eventDateTime = doc.GetTextByXPath("/html/body/table/td/p/font[5]");
+            var eighth = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[1]");
+            var row = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[2]");
+            var seat = doc.GetTextByXPath("/html/body/table/td/p/font[6]/text()[3]");
+            //var barCode = doc.GetTextByXPath("/html/body/text()");
+            var barCode = Common.ConvertHtmlContentToText(doc.DocumentNode.SelectSingleNode("//body")?.InnerHtml?.Split("<br>")?.LastOrDefault());
+
+            return Ok(new
+            {
+                message,
+                title,
+                minAgo,
+                eventCode,
+                eventName,
+                eventPlaceName,
+                eventPlaceCity,
+                eventDateTime,
+                eighth,
+                row,
+                seat,
+                barCode
+            });
+        }
+
+        string Scan_Out_SuccessResponse = @"<html>
+    <body bgcolor=""#FF0000"">
+        <br>
+        <br>
+        <p align=""center"">
+            <b>
+                <font face=""Times New Roman"" color=""#FFFFFF"" size=""7"">Scanned Out
+                </b>
+            </font>
+        </p>
+    </html>";
+
+        [HttpGet("Scan_Out_Success")]
+        public IActionResult Scan_Out_Success ()
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(Scan_Info_Success_Response);
+
+            return Ok();
+        }
+
+        [HttpGet("Scan_Out_Error_ ")]
+
+
+        string Scan_Info_Success_Response = @"<html>
+    <body bgcolor=""#FFFFFF"">
+        <p align=""center"">
+            <br>
+            <b>
+                <font face=""Times New Roman"" color=""#000000"" size=""7"">Javier Molina Test
+                
+                </b>
+            </font>
+            </br>
+            <table bgcolor=""#E0E0E0"" width=""541"">
+                <td>
+                    <p align=""center"">
+                        <font face=""Times New Roman"" color=""#000000"" size=""2"">Chicago
+                            
+                            <br>Ambassador Theatre
+                            
+                            <br>NY City Area
+                            
+                            <br>04/01/2023  8:00 PM (E   )
+                            
+                            <br>
+                            <i>Tickets:</i> 2&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i> Order: </i>90857889
+                            <br>
+                            <i>Purchased:</i> 01/04/2023 09:47  (M1)
+                        </font>
+                    </td>
+                </table>
+                <b>
+                    <font face=""Times New Roman"" color=""#000000"" size=""7"">ORCHC                                                        row:B                                                       seat:111
+                    
+                    </b>
+                </font>
+                <br>
+                <b>
+                    <font face=""Times New Roman"" color=""#FF0000"" size=""4"">Created                       &nbsp;01/04/2023 09:47
+                    
+                    </b>
+                </font>
+                <b>
+                    <font face=""Times New Roman"" color=""#000000"" size=""4"">
+                        <br>
+                        <br>SE UNKNOWN 01/04/23
+                    
+                    </b>
+                </font>
+                <br>
+                <font color=""#AA0077"">
+                    <b>PH          </b>
+                </font>
+                <br>
+                <font face=""Times New Roman"" color=""#000000"" size=""3"">
+                    <font face=""Times New Roman"" color=""#000000"" size=""3"">
+                        <br>WESTWOOD, NJ
+                    
+                    </font>
+                    <br>
+                    <br>
+                    <font face=""Times New Roman"" color=""#000000"" size=""3"">ORCHC                                                        row:B                                                       seats:112</font>
+                    <br>
+                    <font face=""Times New Roman"" color=""#FF0000"" size=""2"">Created&nbsp; 01/04/2023 09:47
+                    
+                    </b>
+                </font>
+                <br>
+                <br>
+                <b>
+                    <font face=""Times New Roman"" color=""#000000"" size=""2"">   (941457558323                                           )
+                    
+                    </b>
+                </font>
+            </p>
+        </html>";
+
+        [HttpGet("Scan_Info_Success")] 
+        public IActionResult Scan_Info_Success ()
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(Scan_Info_Success_Response);
+
+            var messageNode = doc.DocumentNode.SelectNodes("//p//font").ToArray();
+
+            // doc.DocumentNode.SelectSingleNode("/html[1]/body[1]/b[1]/text()[1]").InnerText
+
+            return Ok();
+        }
     }
 }
